@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ban_hang/api/user_api.dart';
 import 'package:ban_hang/utils/constant.dart';
 import '../models/cart_product_model.dart';
 import '../models/order_product_model.dart';
@@ -12,9 +13,14 @@ class OrderApi {
   final httpService = HttpService();
 
   Future<dynamic> addOrder(List<CartProductModel> products, int total) async{
+
+    //Làm tạm một hàm đăng nhập
+    final userApi = UserApi();
+    final token = await userApi.login(Constants.userName,Constants.password);
+
     final headers = <String, String>{
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${Constants.tokenValue}',
+      'Authorization': 'Bearer $token',
     };
     List<OrderProductModel> orderProducts = products.map((product) {
       return OrderProductModel(productId: product.id, quantity: product.quantity, unitPrice: product.unitPrice);
