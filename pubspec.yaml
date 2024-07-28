@@ -34,6 +34,7 @@ dependencies:
   flutter_svg: ^0.23.0
   flutter_bloc: ^8.1.6
   shared_preferences: ^2.2.3
+  flutter_staggered_animations: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,6 +68,7 @@ flutter:
     - images/
     - images/icons/
     - images/products/
+    - images/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

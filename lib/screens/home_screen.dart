@@ -1,13 +1,13 @@
-import 'package:ban_hang/widgets/product.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ban_hang/widgets/product_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../api/product_api.dart';
 import '../cubit/cart_cubit.dart';
 import '../cubit/cart_state.dart';
 import '../models/product_model.dart';
 import '../utils/show_notification.dart';
-import '../widgets/main_navigation.dart';
+import '../widgets/main_navigation_widget.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
@@ -22,22 +22,30 @@ class ProductsPage extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(96),
             child: AppBar(
-              flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(238, 238, 238, 1), // Đặt màu nền cho AppBar
+                flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                color:
+                    Color.fromRGBO(238, 238, 238, 1), // Đặt màu nền cho AppBar
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: const Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      children: [
+                        Text("Products",
+                            style: TextStyle(
+                                fontSize: 32, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text("All available products in our store",
+                            style: TextStyle(fontSize: 16))
+                      ],
+                    ))
+                  ],
                 ),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: const Row(
-                    children: [Expanded(child: Column(children: [
-                      Text("Products", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 5),
-                      Text("All available products in our store", style: TextStyle(fontSize: 16))
-                    ],))],
-                  ),
-                ),
-              )
-            ),
+              ),
+            )),
           ),
           bottomNavigationBar: const MainNavigation(pageName: "Products"),
           body: const Products(),
@@ -88,16 +96,24 @@ class _Products extends State<Products> {
                   return loadingIndicator();
                 }
                 final product = products[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: Product(
-                    productId: product.id,
-                    urlImage: product.image,
-                    productName: product.name,
-                    productPrice: product.price,
-                    productStock: product.quantity,
-                  ),
-                );
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50,
+                      child: FadeInAnimation(
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          child: Product(
+                            productId: product.id,
+                            urlImage: product.image,
+                            productName: product.name,
+                            productPrice: product.price,
+                            productStock: product.quantity,
+                          ),
+                        ),
+                      ),
+                    ));
               });
         },
       ),

@@ -25,26 +25,29 @@ class CartCubit extends Cubit<CartState> {
   }
 
   addProductIntoCart(CartProductModel product) async {
-      int index = cartProducts
-          .indexWhere((cartProduct) => cartProduct.id == product.id);
-      if (index != -1) {
-        cartProducts[index].quantity += 1;
-        cartProducts[index].price = cartProducts[index].unitPrice * cartProducts[index].quantity;
-      } else {
-        cartProducts.add(product);
-      }
-      List<Map<String, dynamic>> jsonList = cartProducts.map((product) => product.toJson()).toList();
-      String jsonString = jsonEncode(jsonList);
-      await LocalStorage.setValue(Constants.cart, jsonString);
-      emit(CartState(cartProducts));
+    int index =
+        cartProducts.indexWhere((cartProduct) => cartProduct.id == product.id);
+    if (index != -1) {
+      cartProducts[index].quantity += 1;
+      cartProducts[index].price =
+          cartProducts[index].unitPrice * cartProducts[index].quantity;
+    } else {
+      cartProducts.add(product);
+    }
+    List<Map<String, dynamic>> jsonList =
+        cartProducts.map((product) => product.toJson()).toList();
+    String jsonString = jsonEncode(jsonList);
+    await LocalStorage.setValue(Constants.cart, jsonString);
+    emit(CartState(cartProducts));
   }
 
   deleteAProductInCart(int productId) async {
-      cartProducts.removeWhere((product) => product.id == productId);
-      List<Map<String, dynamic>> jsonList = cartProducts.map((product) => product.toJson()).toList();
-      String jsonString = jsonEncode(jsonList);
-      await LocalStorage.setValue(Constants.cart, jsonString);
-      emit(CartState(cartProducts));
+    cartProducts.removeWhere((product) => product.id == productId);
+    List<Map<String, dynamic>> jsonList =
+        cartProducts.map((product) => product.toJson()).toList();
+    String jsonString = jsonEncode(jsonList);
+    await LocalStorage.setValue(Constants.cart, jsonString);
+    emit(CartState(cartProducts));
   }
 
   clearCart() async {

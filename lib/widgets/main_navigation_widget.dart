@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../screens/account.dart';
-import '../screens/cart.dart';
-import '../screens/products.dart';
+import '../screens/account_screen.dart';
+import '../screens/cart_screen.dart';
+import '../screens/home_screen.dart';
 
 class MainNavigation extends StatelessWidget {
   const MainNavigation({super.key, this.pageName});
@@ -98,7 +98,7 @@ class MainNavigation extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const ProductsPage(),
+          builder: (context) => const ProductsPage(),
         ));
   }
 

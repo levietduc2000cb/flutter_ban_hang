@@ -1,5 +1,6 @@
 import 'package:ban_hang/cubit/cart_state.dart';
-import 'package:ban_hang/screens/products.dart';
+import 'package:ban_hang/screens/login_screen.dart';
+import 'package:ban_hang/screens/home_screen.dart';
 import 'package:ban_hang/widgets/button_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,8 +9,12 @@ import 'package:flutter/material.dart';
 import '../api/order_api.dart';
 import '../cubit/cart_cubit.dart';
 import '../models/cart_product_model.dart';
+import '../utils/constant.dart';
+import '../utils/local_storage.dart';
+import '../utils/show_alert_widget.dart';
 import '../utils/show_notification.dart';
-import '../widgets/main_navigation.dart';
+import '../widgets/column_title_table_widget.dart';
+import '../widgets/main_navigation_widget.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -135,46 +140,10 @@ class _CartDetail extends State<CartDetail> {
                                 padding: EdgeInsets.symmetric(vertical: 9),
                                 child: Text("")),
                           ),
-                          Container(
-                            color: const Color.fromRGBO(249, 249, 249, 1),
-                            child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 9, horizontal: 8),
-                                child: Text("Product",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14))),
-                          ),
-                          Container(
-                            color: const Color.fromRGBO(249, 249, 249, 1),
-                            child: const Center(
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 9),
-                                    child: Text("Qty",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14)))),
-                          ),
-                          Container(
-                            color: const Color.fromRGBO(249, 249, 249, 1),
-                            child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 9, horizontal: 8),
-                                child: Text("Unit Price",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14))),
-                          ),
-                          Container(
-                            color: const Color.fromRGBO(249, 249, 249, 1),
-                            child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 9, horizontal: 8),
-                                child: Text("Price",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14))),
-                          )
+                          const ColumnTitleTable(title: "Product"),
+                          const ColumnTitleTable(title: "Qty"),
+                          const ColumnTitleTable(title: "Unit Price"),
+                          const ColumnTitleTable(title: "Price")
                         ]),
                         // Items
                         for (int index = 0; index < products.length; index++)
@@ -320,15 +289,30 @@ class _CartDetail extends State<CartDetail> {
     }
   }
 
+  void goLoginPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ));
+  }
+
   Future<void> checkOut(
       List<CartProductModel> products, int total, CartCubit cartCubit) async {
     if (products.isEmpty) {
       return showNotification(context, "Cart is empty!!!");
     }
+    String token = await LocalStorage.getValue(Constants.token);
+    if (token.isEmpty) {
+      if (!mounted) return;
+      return showAlert(context, "Thất bại",
+          "Bạn phải đăng nhập để đặt hàng!!!", "Đồng ý", goLoginPage, isHaveCancelButton: true);
+    }
     try {
       setState(() {
         isLoading = true;
       });
+
       await orderApi.addOrder(products, total);
       await cartCubit.clearCart();
       setState(() {
@@ -340,7 +324,9 @@ class _CartDetail extends State<CartDetail> {
       setState(() {
         isLoading = false;
       });
-      showNotification(context, "Checkout is failure");
+      if (!mounted) return;
+      showAlert(context, "Thất bại",
+          "Phiên đăng nhập đã hết hạn. Bạn phải đăng nhập lại để đặt hàng!!!", "Đồng ý", goLoginPage, isHaveCancelButton: true);
     }
   }
 }

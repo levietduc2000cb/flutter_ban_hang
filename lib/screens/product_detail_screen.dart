@@ -1,5 +1,5 @@
 import 'package:ban_hang/models/product_model.dart';
-import 'package:ban_hang/screens/products.dart';
+import 'package:ban_hang/screens/home_screen.dart';
 import 'package:ban_hang/widgets/button_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,8 @@ import '../cubit/cart_cubit.dart';
 import '../cubit/cart_state.dart';
 import '../models/cart_product_model.dart';
 import '../utils/show_notification.dart';
-import '../widgets/main_navigation.dart';
-import '../widgets/product_detail_infor.dart';
+import '../widgets/main_navigation_widget.dart';
+import '../widgets/product_detail_infor_widget.dart';
 
 class ProductDeatilPage extends StatelessWidget {
   const ProductDeatilPage({super.key});
@@ -28,19 +28,26 @@ class ProductDeatilPage extends StatelessWidget {
             preferredSize: const Size.fromHeight(72),
             child: AppBar(
                 flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(238, 238, 238, 1), // Đặt màu nền cho AppBar
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Row(
-                      children: [Expanded(child: Column(children: [
-                        Text("Products", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-                      ],))],
-                    ),
-                  ),
-                )
-            ),
+              decoration: const BoxDecoration(
+                color:
+                    Color.fromRGBO(238, 238, 238, 1), // Đặt màu nền cho AppBar
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: const Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      children: [
+                        Text("Products",
+                            style: TextStyle(
+                                fontSize: 32, fontWeight: FontWeight.bold)),
+                      ],
+                    ))
+                  ],
+                ),
+              ),
+            )),
           ),
           bottomNavigationBar: const MainNavigation(),
           body: Container(
@@ -162,7 +169,8 @@ class _ProductDetail extends State<ProductDetail> {
                                   fontSizeButton: 16,
                                   color: Colors.white,
                                   backGroundColor: const Color(0xFFF0AD4E),
-                                  handleOnPressed: () => orderNow(context.read<CartCubit>()));
+                                  handleOnPressed: () =>
+                                      orderNow(context.read<CartCubit>()));
                             }))
                           ],
                         ))
@@ -202,10 +210,10 @@ class _ProductDetail extends State<ProductDetail> {
         price: product!.price);
     try {
       await cartCubit.addProductIntoCart(cartProduct);
-      if(!mounted) return;
+      if (!mounted) return;
       showNotification(context, "Add product into cart is success");
     } catch (e) {
-      if(!mounted) return;
+      if (!mounted) return;
       showNotification(context, "Add product into cart is failure");
     }
   }

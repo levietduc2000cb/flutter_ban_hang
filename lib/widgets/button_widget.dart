@@ -12,7 +12,7 @@ class ButtonWidget extends StatelessWidget {
       required this.fontSizeButton,
       required this.color,
       required this.backGroundColor,
-        this.heightButton,
+      this.heightButton,
       required this.handleOnPressed});
 
   final dynamic icon;
@@ -32,7 +32,8 @@ class ButtonWidget extends StatelessWidget {
     return OutlinedButton(
         onPressed: handleOnPressed,
         style: OutlinedButton.styleFrom(
-            minimumSize: heightButton != null ? Size.fromHeight(heightButton!) : null,
+            minimumSize:
+                heightButton != null ? Size.fromHeight(heightButton!) : null,
             padding: EdgeInsets.zero,
             backgroundColor: backGroundColor,
             side: BorderSide.none,

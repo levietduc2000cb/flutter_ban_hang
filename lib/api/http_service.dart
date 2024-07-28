@@ -10,9 +10,10 @@ class HttpService {
     return await http.get(url);
   }
 
-  Future<http.Response> post(String endpoint, {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
+  Future<http.Response> post(String endpoint,
+      {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
     final url = Uri.parse('$baseUrl/$endpoint');
-    return await http.post(url, headers: headers, body: body, encoding: encoding);
+    return await http.post(url,
+        headers: headers, body: body, encoding: encoding);
   }
-
 }

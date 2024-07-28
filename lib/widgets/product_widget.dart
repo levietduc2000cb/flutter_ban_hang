@@ -4,11 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/cart_cubit.dart';
 import '../models/cart_product_model.dart';
-import '../screens/product_detail.dart';
+import '../screens/product_detail_screen.dart';
 import '../utils/show_notification.dart';
 
 class Product extends StatelessWidget {
-
   const Product(
       {super.key,
       required this.productId,
@@ -31,13 +30,11 @@ class Product extends StatelessWidget {
       productName: productName,
       productPrice: productPrice,
       productStock: productStock,
-
     );
   }
 }
 
 class _Product extends StatefulWidget {
-
   const _Product(
       {super.key,
       required this.productId,
@@ -57,7 +54,6 @@ class _Product extends StatefulWidget {
 }
 
 class ProductWidget extends State<_Product> {
-
   @override
   Widget build(BuildContext context) {
     final cartCubit = BlocProvider.of<CartCubit>(context);
@@ -87,7 +83,7 @@ class ProductWidget extends State<_Product> {
               Text(
                 widget.productName,
                 style:
-                const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               Text("\$${widget.productPrice}",
@@ -98,36 +94,33 @@ class ProductWidget extends State<_Product> {
                 children: [
                   Expanded(
                       child: Row(
-                        children: [
-                          Expanded(
-                            child: ButtonWidget(
-                                icon: "images/icons/infor.svg",
-                                text: "Detail",
-                                fontSizeButton: 16,
-                                color: Colors.white,
-                                backGroundColor: const Color(0xFF428BCA),
-                                handleOnPressed: () => redirectDetail(context)),
-                          ),
-                          const SizedBox(width: 4.46),
-                          Expanded(
-                              child: ButtonWidget(
-                                icon: "images/icons/cart.svg",
-                                text: "Order Now",
-                                fontSizeButton: 16,
-                                color: Colors.white,
-                                backGroundColor: const Color(0xFFF0AD4E),
-                                handleOnPressed: () => {
-                                  orderNow(cartCubit)
-                                },
-                              ))
-                        ],
+                    children: [
+                      Expanded(
+                        child: ButtonWidget(
+                            icon: "images/icons/infor.svg",
+                            text: "Detail",
+                            fontSizeButton: 16,
+                            color: Colors.white,
+                            backGroundColor: const Color(0xFF428BCA),
+                            handleOnPressed: () => redirectDetail(context)),
+                      ),
+                      const SizedBox(width: 4.46),
+                      Expanded(
+                          child: ButtonWidget(
+                        icon: "images/icons/cart.svg",
+                        text: "Order Now",
+                        fontSizeButton: 16,
+                        color: Colors.white,
+                        backGroundColor: const Color(0xFFF0AD4E),
+                        handleOnPressed: () => {orderNow(cartCubit)},
                       ))
+                    ],
+                  ))
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 
   void redirectDetail(BuildContext context) {
@@ -147,13 +140,11 @@ class ProductWidget extends State<_Product> {
         price: widget.productPrice);
     try {
       await cartCubit.addProductIntoCart(cartProduct);
-      if(!mounted) return;
+      if (!mounted) return;
       showNotification(context, "Add product into cart is success");
     } catch (e) {
-      if(!mounted) return;
+      if (!mounted) return;
       showNotification(context, "Add product into cart is failure");
     }
   }
 }
-
-

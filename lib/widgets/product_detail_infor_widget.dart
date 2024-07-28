@@ -23,7 +23,8 @@ class ProductDetailInfor extends StatelessWidget {
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             Container(
               margin: const EdgeInsets.only(left: 6),
-              child: Text(description.toString(), style: const TextStyle(fontSize: 16)),
+              child: Text(description.toString(),
+                  style: const TextStyle(fontSize: 16)),
             )
           ],
         ));
