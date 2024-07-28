@@ -10,6 +10,7 @@ Customer Use Cases:
   cart.
 - Customer Edit Cart: Customers can edit the contents of their shopping cart, including
   changing quantities or removing items
-![ Ảnh yêu cầu ](images/1.jpg)
+
+![ Ảnh yêu cầu ](images/1.JPG)
 ![ Ảnh yêu cầu ](images/2.JPG)
 ![ Ảnh yêu cầu ](images/3.JPG)
